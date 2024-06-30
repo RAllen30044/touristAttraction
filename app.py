@@ -41,19 +41,19 @@ def locations(category):
 @app.route("/add_location", methods=["POST"])
 def add_location():
     ## Validate and collect the form data
-
-    if True:
-        name = None
-        description = None
-        category = None
+    add_form = AddLocationForm(csrf_enabled=False)
+    if add_form.validate_on_submit():
+        name = add_form.name.data
+        description = add_form.description.data
+        category = add_form.category.data
         visit.add(name, description, category)
 
-    ## Redirect to locations route function
-    return ""
+        ## Redirect to locations route function
+        return redirect(url_for("locations", category=category, _external=True))
 
 
 @app.route("/")
 def index():
 
     ## Redirect to locations route function
-    return ""
+    return redirect(url_for("locations", category="recommended", _external=True))
